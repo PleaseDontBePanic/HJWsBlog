@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header(title,keywords)">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="../blog/assets/images/favicon.png"/>
+    <title th:text="|${configurations.get('websiteName')} - ${pageName}|">HJWs Blog
+    </title>
+    <meta name="description" th:content="${configurations.get('websiteDescription')}">
+    <link rel="shortcut icon" th:href="@{${configurations.get('websiteIcon')}}"/>
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/plugins/jquery/dist/jquery.min.js}">
+    <script type="application/javascript" th:src="@{/blog/yummy-jekyll/plugins/jquery/dist/jquery.min.js}"></script>
+    <!-- Third-Party CSS -->
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/plugins/bootstrap/dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/plugins/octicons/octicons/octicons.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/plugins/hover/css/hover-min.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/plugins/primer-markdown/dist/user-content.min.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/syntax.css}">
+    <!-- My CSS -->
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/common.css}">
+    <!-- CSS set in page -->
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/index.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/about.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/blog-page.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/open-source.css}">
+    <link rel="stylesheet" th:href="@{/blog/yummy-jekyll/assets/css/sidebar-popular-repo.css}">
+    <script type="text/javascript" th:src="@{/blog/yummy-jekyll/plugins/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <style>
+        .inputText{
+            width: 200px;
+            height: 20px;
+            line-height: 30px;
+            font-size: 15px;
+            padding-left: 30px;
+            border-radius: 50px;
+            background-color: gainsboro;
+            border: none;
+        }
+        .inputText:focus{
+            outline: none;
+        background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container">
+        <a id="site-header-brand" href="/" title="HJWs blog">
+            <span class="octicon octicon-rocket" th:text="| ${configurations.get('websiteName')}|"></span>
+        </a>
+        <nav class="site-header-nav" role="navigation">
+            <a th:href="@{/admin/login}" class=" site-header-nav-item hvr-underline-from-center">
+                LogIn
+            </a>
+            <a th:href="@{/index}" class=" site-header-nav-item hvr-underline-from-center">
+                Home
+            </a>
+            <a th:href="@{/categories}" class=" site-header-nav-item hvr-underline-from-center">
+                Categories
+            </a>
+            <a th:href="@{/link}" class=" site-header-nav-item hvr-underline-from-center">
+                Links
+            </a>
+            <a th:href="@{/about}" class=" site-header-nav-item hvr-underline-from-center">
+                About
+            </a>
+            <a th:href="@{/jay}" class=" site-header-nav-item hvr-underline-from-center">
+                JayZhou
+            </a>
+            <a href="https://github.com/PleaseDontBePanic" class=" site-header-nav-item hvr-underline-from-center" target="_blank">
+                GitHub
+            </a>
+        </nav>
+    </div>
+        <form style="text-align: center" action="https://hjwzqy.online/search/" method="get">
+            <div>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <label for="search">你想搜索什么?</label>
+                <input class="inputText" type="text" id="search" style="color: black" name="keyword" placeholder="请输入欲搜索的内容">
+                <button style="color: black">立即搜索</button>
+            </div>
+        </form>
+</header>
+</body>
+</html>
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input框美化</title>
+    <style>
+        .inputText{
+            width: 500px;
+            height: 50px;
+            line-height: 30px;
+            font-size: 30px;
+            padding-left: 30px;
+            border-radius: 50px;
+            background-color: gainsboro;
+            border: none;
+        }
+        .inputText:focus{
+            outline: none;//设置所有的轮廓属性为none
+        background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+<input type="text" class="inputText">
+</body>
+</html>

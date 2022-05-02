@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjwsblog.hjwsblog.Dao.BlogCategoryDao">
+    <resultMap id="BlogCategoryResult" type="com.hjwsblog.hjwsblog.entity.BlogCategory">
+        <id column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="category_icon" jdbcType="VARCHAR" property="categoryIcon"/>
+        <result column="category_rank" jdbcType="INTEGER" property="categoryRank"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <select id="selectByCategoryIds" resultMap="BlogCategoryResult">
+        select *
+        from blog_category
+        where category_id IN
+        <foreach collection="categoryIds" item="item" index="index"
+                 open="(" separator="," close=")">#{item}
+        </foreach>
+        AND is_deleted = 0
+    </select>
+
+    <select id="getTotalCategories" parameterType="Map" resultType="int">
+        select count(*) from blog_category
+        where is_deleted = 0
+    </select>
+
+    <select id="findCategoryList" parameterType="Map" resultMap="BlogCategoryResult">
+        select * from blog_category
+        where is_deleted=0
+        order by category_rank desc, create_time desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="selectByCategoryName" resultMap="BlogCategoryResult" parameterType="String">
+        select * from blog_category
+        where is_deleted=0
+        and  category_name=#{name}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.hjwsblog.hjwsblog.entity.BlogCategory">
+        insert into blog_category(category_name,category_icon)
+        values (#{categoryName},#{categoryIcon})
+    </insert>
+
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BlogCategoryResult">
+        select * from blog_category
+        where category_id = #{id} and is_deleted=0
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hjwsblog.hjwsblog.entity.BlogCategory">
+        update blog_category
+        set category_name = #{categoryName},
+        category_icon = #{categoryIcon}
+        where category_id = #{categoryId}
+        and is_deleted=0
+    </update>
+
+    <update id="deleteBatch">
+        update blog_category
+        set is_deleted=1 where category_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getAllCategories" resultMap="BlogCategoryResult">
+        select * from blog_category
+        where is_deleted=0
+    </select>
+
+</mapper>

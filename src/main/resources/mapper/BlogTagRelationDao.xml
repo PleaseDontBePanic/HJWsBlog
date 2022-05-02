@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjwsblog.hjwsblog.Dao.BlogTagRelationDao">
+    <resultMap id="BaseResultMap" type="com.hjwsblog.hjwsblog.entity.BlogTagRelation">
+        <id column="relation_id" jdbcType="BIGINT" property="relationId"/>
+        <result column="blog_id" jdbcType="BIGINT" property="blogId"/>
+        <result column="tag_id" jdbcType="INTEGER" property="tagId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <select id="selectDistinctTagIds" resultType="Long">
+        select
+        DISTINCT(tag_id)
+        from blog_tag_relation
+        where tag_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="bathInsert" parameterType="com.hjwsblog.hjwsblog.entity.BlogTagRelation">
+        insert into blog_tag_relation(blog_id,tag_id)
+        values (#{blogId},#{tagId})
+    </insert>
+
+    <delete id="deleteByBlogId" parameterType="Long">
+        delete from blog_tag_relation
+        where blog_id = #{blogId,jdbcType=BIGINT}
+    </delete>
+</mapper>
