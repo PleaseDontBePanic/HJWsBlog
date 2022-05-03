@@ -64,5 +64,9 @@ public class HjwsblogApplicationTests {
         connection.close();
     }
 
+    @Test
+    public void TestGit(){
+        System.out.println("Giiit");
+    }
 
 }
