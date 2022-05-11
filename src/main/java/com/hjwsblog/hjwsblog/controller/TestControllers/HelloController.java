@@ -34,9 +34,4 @@ public class HelloController {
         return "This is a demo!";
 }
 
-    @GetMapping("/toinfo")
-    public String ind(){
-        return "/info";
-    }
-
 }
