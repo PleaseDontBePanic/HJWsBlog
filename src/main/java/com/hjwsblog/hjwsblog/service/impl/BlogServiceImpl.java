@@ -382,6 +382,13 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.getViewCount();
     }
 
+    @Override
+    public void addJayView() {
+        Blog jay = blogDao.getBlogById((long) 50);
+        jay.setBlogViews(jay.getBlogViews()+1);
+        blogDao.updateByPrimaryKeySelective(jay);
+    }
+
     private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {
         List<BlogListVO> blogListVOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(blogList)) {

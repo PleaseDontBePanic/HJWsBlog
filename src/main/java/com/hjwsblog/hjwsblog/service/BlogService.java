@@ -37,4 +37,6 @@ public interface BlogService {
     BlogDetailVO getBlogDetail(Long blogId);
 
     int getViewCount();
+
+    void addJayView();
 }
