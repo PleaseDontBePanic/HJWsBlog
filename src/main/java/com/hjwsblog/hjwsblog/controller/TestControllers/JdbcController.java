@@ -13,11 +13,7 @@ public class JdbcController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/user/queryall")
-    public List<Map<String,Object>> queryAll(){
-        List<Map<String,Object>> list = jdbcTemplate.queryForList("select * from tb_user");
-        return list;
-    }
+
 
     @GetMapping("/user/insert")
     public Object insert(String name , String password){
