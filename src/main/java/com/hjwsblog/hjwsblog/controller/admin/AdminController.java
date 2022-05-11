@@ -82,6 +82,7 @@ public class AdminController {
         request.setAttribute("linkCount", linkService.getTotalLinks());
         request.setAttribute("tagCount", tagService.getTotalTags());
         request.setAttribute("commentCount", commentService.getTotalComments());
+        request.setAttribute("viewCount", blogService.getViewCount());
         return "admin/index";
     }
 

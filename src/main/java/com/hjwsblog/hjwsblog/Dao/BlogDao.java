@@ -30,4 +30,6 @@ public interface BlogDao {
     Blog selectBySubUrl(String subUrl);
 
     List<Blog> getBlogsPageByTagId(PageQueryUtil pageUtil);
+
+    int getViewCount();
 }

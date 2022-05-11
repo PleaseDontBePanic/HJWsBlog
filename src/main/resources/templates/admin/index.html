@@ -52,22 +52,7 @@
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-lg-4 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3 th:text="${commentCount}">65</h3>
 
-                                <p>收到评论数</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-comments"></i>
-                            </div>
-                            <a th:href="@{/admin/comments}" class="small-box-footer">More info <i
-                                    class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
                     <!-- ./col -->
                     <div class="col-lg-4 col-6">
                         <!-- small box -->
@@ -113,6 +98,27 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                             <a th:href="@{/admin/links}" class="small-box-footer">More info <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3 th:text="${viewCount}">65</h3>
+
+                                <p>总浏览量</p>
+                            </div>
+                            <div class="inner">
+                                <h3 th:text="${commentCount}">65</h3>
+
+                                <p>收到评论数</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-comments"></i>
+                            </div>
+                            <a th:href="@{/admin/comments}" class="small-box-footer">More info <i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>

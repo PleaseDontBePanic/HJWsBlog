@@ -35,4 +35,6 @@ public interface BlogService {
     BlogDetailVO getBlogDetailBySubUrl(String subUrl);
 
     BlogDetailVO getBlogDetail(Long blogId);
+
+    int getViewCount();
 }

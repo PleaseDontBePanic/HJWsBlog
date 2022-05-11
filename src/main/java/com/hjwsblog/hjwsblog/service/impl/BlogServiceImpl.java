@@ -377,6 +377,11 @@ public class BlogServiceImpl implements BlogService {
         return null;
     }
 
+    @Override
+    public int getViewCount() {
+        return blogDao.getViewCount();
+    }
+
     private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {
         List<BlogListVO> blogListVOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(blogList)) {

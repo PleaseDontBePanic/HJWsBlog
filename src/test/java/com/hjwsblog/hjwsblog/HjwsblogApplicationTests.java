@@ -67,6 +67,7 @@ public class HjwsblogApplicationTests {
     @Test
     public void TestGit(){
         System.out.println("Giiit");
+        System.out.println("GGGGiit");
     }
 
 }

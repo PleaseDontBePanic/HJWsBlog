@@ -22,6 +22,12 @@
         <result column="blog_content" jdbcType="LONGVARCHAR" property="blogContent"/>
     </resultMap>
 
+    <select id="getViewCount" resultType="int">
+        select sum(blog_views)
+        from blog
+        where is_deleted=0
+    </select>
+
     <select id="selectBySubUrl" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
         select *
         from blog
