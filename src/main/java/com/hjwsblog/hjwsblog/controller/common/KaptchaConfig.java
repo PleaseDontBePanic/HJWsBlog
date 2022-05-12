@@ -21,7 +21,7 @@ public class KaptchaConfig {
         properties.put("kaptcha.image.height", "40");
         properties.put("kaptcha.textproducer.font.size", "30");
         properties.put("kaptcha.session.key", "verifyCode");
-        properties.put("kaptcha.textproducer.char.space", "3");
+        properties.put("kaptcha.textproducer.char.space", "5");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
