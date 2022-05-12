@@ -16,7 +16,7 @@ public class KaptchaConfig {
         com.google.code.kaptcha.impl.DefaultKaptcha defaultKaptcha = new com.google.code.kaptcha.impl.DefaultKaptcha();
         Properties properties = new Properties();
         properties.put("kaptcha.border", "no");
-        properties.put("kaptcha.textproducer.font.color", "black");
+        properties.put("kaptcha.textproducer.font.color", "red");
         properties.put("kaptcha.image.width", "150");
         properties.put("kaptcha.image.height", "40");
         properties.put("kaptcha.textproducer.font.size", "30");
