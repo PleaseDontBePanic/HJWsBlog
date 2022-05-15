@@ -9,10 +9,16 @@ import com.hjwsblog.hjwsblog.service.TagService;
 import com.hjwsblog.hjwsblog.util.PageQueryUtil;
 import com.hjwsblog.hjwsblog.util.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -23,6 +29,8 @@ public class TagServiceImpl implements TagService {
     @Autowired
     private BlogTagRelationDao blogTagRelationDao;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Override
     public int getTotalTags() {
         return blogTagDao.getTotalTags();
@@ -63,6 +71,27 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<BlogTagCount> getBlogTagCountForIndex() {
         return blogTagDao.getTagCount();
+    }
+
+    @Override
+    public List<BlogTagCount> getBlogTagCount() {
+        List<BlogTagCount> res = new ArrayList<>();
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        Set<ZSetOperations.TypedTuple<Object>> tagCount = redisTemplate.opsForZSet().reverseRangeWithScores("TagCount", 0, 19);
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = tagCount.iterator();
+        while (iterator.hasNext()){
+            ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
+            String tag = typedTuple.getValue().toString();
+            float f = Float.valueOf(typedTuple.getScore().toString());
+            int count = (int)f;
+            BlogTag blogTag = blogTagDao.selectByTagName(tag);
+            BlogTagCount blogTagCount = new BlogTagCount();
+            blogTagCount.setTagId(blogTag.getTagId());
+            blogTagCount.setTagName(tag);
+            blogTagCount.setTagCount(count);
+            res.add(blogTagCount);
+        }
+        return res;
     }
 
 

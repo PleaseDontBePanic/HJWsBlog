@@ -15,6 +15,8 @@ import com.hjwsblog.hjwsblog.util.PageResult;
 import com.hjwsblog.hjwsblog.util.PatternUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -41,6 +43,9 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogDao blogDao;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public int getTotalBlogs() {
         return blogDao.getTotalBlogs(null);
@@ -49,6 +54,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional
     public String saveBlog(Blog blog) {
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
 //        若分类不存在则设为默认分类
         BlogCategory blogCategory = blogCategoryDao.selectByPrimaryKey(blog.getBlogCategoryId());
         if(blogCategory == null){
@@ -60,6 +66,9 @@ public class BlogServiceImpl implements BlogService {
         }
 //        将Tags以,分开获取
         String[] tags = blog.getBlogTags().split(",");
+        for(String tag : tags){
+            redisTemplate.opsForZSet().incrementScore("TagCount",tag,1);
+        }
         if (tags.length > 6) {
             return "标签数量限制为6";
         }
@@ -129,6 +138,7 @@ public class BlogServiceImpl implements BlogService {
     private BlogDetailVO getBlogDetailVO(Blog blog) {
         if (blog != null && blog.getBlogStatus() == 1) {
             //增加浏览量
+            redisTemplate.opsForZSet().incrementScore("ViewCount",blog.getBlogId().toString(),1);
             blog.setBlogViews(blog.getBlogViews() + 1);
             blogDao.updateByPrimaryKeySelective(blog);//更新Blog信息
             BlogDetailVO blogDetailVO = new BlogDetailVO();
@@ -163,9 +173,14 @@ public class BlogServiceImpl implements BlogService {
     @Override
     @Transactional //其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务。
     public String updateBlog(Blog blog) {
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
         Blog blogForUpdate = blogDao.getBlogById(blog.getBlogId());
         if (blogForUpdate == null) {
             return "数据不存在";
+        }
+        String[] oldTags = blogForUpdate.getBlogTags().split(",");
+        for(String tag : oldTags){
+            redisTemplate.opsForZSet().incrementScore("TagCount",tag,-1);
         }
 //        为Blog对象设置相应的新属性
         blogForUpdate.setBlogTitle(blog.getBlogTitle());
@@ -192,6 +207,9 @@ public class BlogServiceImpl implements BlogService {
         }
         //        将Tags以,分开获取
         String[] tags = blog.getBlogTags().split(",");
+        for(String tag : tags){
+            redisTemplate.opsForZSet().incrementScore("TagCount",tag,1);
+        }
         if (tags.length > 6) {
             return "标签数量限制为6";
         }
@@ -385,8 +403,30 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void addJayView() {
         Blog jay = blogDao.getBlogById((long) 50);
+        redisTemplate.opsForZSet().incrementScore("ViewCount","50",1);
         jay.setBlogViews(jay.getBlogViews()+1);
         blogDao.updateByPrimaryKeySelective(jay);
+    }
+
+    @Override
+    public List<SimpleBlogListVO> getBlogListForViewCount() {
+        List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        Set viewCount = redisTemplate.opsForZSet().reverseRange("ViewCount", 0, 8);
+        List<Blog> blogs = new ArrayList<>();
+        for(Object id : viewCount){
+            Blog blog = blogDao.getBlogById(Long.valueOf(id.toString()));
+            blogs.add(blog);
+        }
+        if (!CollectionUtils.isEmpty(blogs)) {
+            for (Blog blog : blogs) {
+                SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+                //复制Blog中id、title信息
+                BeanUtils.copyProperties(blog, simpleBlogListVO);
+                simpleBlogListVOS.add(simpleBlogListVO);
+            }
+        }
+        return simpleBlogListVOS;
     }
 
     private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {

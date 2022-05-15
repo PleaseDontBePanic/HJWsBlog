@@ -39,4 +39,6 @@ public interface BlogService {
     int getViewCount();
 
     void addJayView();
+
+    List<SimpleBlogListVO> getBlogListForViewCount();
 }

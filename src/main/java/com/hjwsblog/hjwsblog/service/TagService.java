@@ -18,4 +18,6 @@ public interface TagService {
     boolean deleteBatch(Integer[] ids);
 
     List<BlogTagCount> getBlogTagCountForIndex();
+
+    List<BlogTagCount> getBlogTagCount();
 }

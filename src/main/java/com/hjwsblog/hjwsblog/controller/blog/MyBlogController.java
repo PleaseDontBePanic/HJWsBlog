@@ -55,8 +55,8 @@ public class MyBlogController {
         }
         request.setAttribute("blogPageResult", blogs);//将查到的文章传入对应模块中
         request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));//查询按发布时间排序的文章
-        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));//查询按点击量排序的文章
-        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());//查询按使用次数排序的Tag
+        request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());//查询按点击量排序的文章
+        request.setAttribute("hotTags", tagService.getBlogTagCount());//查询按使用次数排序的Tag
         request.setAttribute("pageName", "首页");
         request.setAttribute("configurations", configService.getAllConfigs());//将配置从数据库中查出，配置相关配置项
         return "blog/" + theme + "/index";//返回对应主题的index界面
@@ -120,8 +120,8 @@ public class MyBlogController {
         request.setAttribute("pageUrl", "tag");
         request.setAttribute("keyword", tagName);
         request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
-        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
-        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
+        request.setAttribute("hotTags", tagService.getBlogTagCount());//查询按使用次数排序的Tag
         request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/" + theme + "/list";
     }
@@ -149,8 +149,8 @@ public class MyBlogController {
         request.setAttribute("pageUrl", "category");
         request.setAttribute("keyword", categoryName);
         request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
-        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
-        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
+        request.setAttribute("hotTags", tagService.getBlogTagCount());
         request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/" + theme + "/list";
     }
@@ -163,8 +163,8 @@ public class MyBlogController {
         request.setAttribute("pageUrl", "search");
         request.setAttribute("keyword", keyword);
         request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
-        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
-        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
+        request.setAttribute("hotTags", tagService.getBlogTagCount());
         request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/" + theme + "/list";
     }
