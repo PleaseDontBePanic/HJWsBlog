@@ -82,12 +82,12 @@ public class TagServiceImpl implements TagService {
         while (iterator.hasNext()){
             ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
             String tag = typedTuple.getValue().toString();
+            String[] t = tag.split(",");
             float f = Float.valueOf(typedTuple.getScore().toString());
             int count = (int)f;
-            BlogTag blogTag = blogTagDao.selectByTagName(tag);
             BlogTagCount blogTagCount = new BlogTagCount();
-            blogTagCount.setTagId(blogTag.getTagId());
-            blogTagCount.setTagName(tag);
+            blogTagCount.setTagId(Integer.valueOf(t[0]));
+            blogTagCount.setTagName(t[1]);
             blogTagCount.setTagCount(count);
             res.add(blogTagCount);
         }

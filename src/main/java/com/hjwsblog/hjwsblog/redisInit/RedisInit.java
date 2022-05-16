@@ -1,7 +1,9 @@
 package com.hjwsblog.hjwsblog.redisInit;
 
 import com.hjwsblog.hjwsblog.Dao.BlogDao;
+import com.hjwsblog.hjwsblog.Dao.BlogTagDao;
 import com.hjwsblog.hjwsblog.entity.Blog;
+import com.hjwsblog.hjwsblog.entity.BlogTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -20,6 +22,9 @@ public class RedisInit implements ApplicationRunner {
     @Autowired
     private BlogDao blogDao;
 
+    @Autowired
+    private BlogTagDao blogTagDao;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         redisTemplate.setValueSerializer(new StringRedisSerializer());
@@ -30,10 +35,11 @@ public class RedisInit implements ApplicationRunner {
         if(viewCount.size() == 0 || tagCount.size() == 0){
             List<Blog> blogList = blogDao.findBlogList(null);
             for(Blog blog : blogList){
-                redisTemplate.opsForZSet().add("ViewCount",blog.getBlogId().toString(),blog.getBlogViews());
+                redisTemplate.opsForZSet().add("ViewCount",blog.getBlogId().toString() + ","+ blog.getBlogTitle(),blog.getBlogViews());
                 String[] tags = blog.getBlogTags().split(",");
                 for(String tag : tags){
-                    redisTemplate.opsForZSet().incrementScore("TagCount",tag,1);
+                    BlogTag blogTag = blogTagDao.selectByTagName(tag);
+                    redisTemplate.opsForZSet().incrementScore("TagCount",blogTag.getTagId().toString()+","+tag,1);
                 }
             }
         }

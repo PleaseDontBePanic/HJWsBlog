@@ -67,7 +67,8 @@ public class BlogServiceImpl implements BlogService {
 //        将Tags以,分开获取
         String[] tags = blog.getBlogTags().split(",");
         for(String tag : tags){
-            redisTemplate.opsForZSet().incrementScore("TagCount",tag,1);
+            BlogTag blogTag = blogTagDao.selectByTagName(tag);
+            redisTemplate.opsForZSet().incrementScore("TagCount",blogTag.getTagId().toString()+","+tag,1);
         }
         if (tags.length > 6) {
             return "标签数量限制为6";
@@ -138,7 +139,7 @@ public class BlogServiceImpl implements BlogService {
     private BlogDetailVO getBlogDetailVO(Blog blog) {
         if (blog != null && blog.getBlogStatus() == 1) {
             //增加浏览量
-            redisTemplate.opsForZSet().incrementScore("ViewCount",blog.getBlogId().toString(),1);
+            redisTemplate.opsForZSet().incrementScore("ViewCount",blog.getBlogId().toString() + "," + blog.getBlogTitle(),1);
             blog.setBlogViews(blog.getBlogViews() + 1);
             blogDao.updateByPrimaryKeySelective(blog);//更新Blog信息
             BlogDetailVO blogDetailVO = new BlogDetailVO();
@@ -180,7 +181,8 @@ public class BlogServiceImpl implements BlogService {
         }
         String[] oldTags = blogForUpdate.getBlogTags().split(",");
         for(String tag : oldTags){
-            redisTemplate.opsForZSet().incrementScore("TagCount",tag,-1);
+            BlogTag blogTag = blogTagDao.selectByTagName(tag);
+            redisTemplate.opsForZSet().incrementScore("TagCount",blogTag.getTagId().toString()+","+tag,-1);
         }
 //        为Blog对象设置相应的新属性
         blogForUpdate.setBlogTitle(blog.getBlogTitle());
@@ -207,11 +209,12 @@ public class BlogServiceImpl implements BlogService {
         }
         //        将Tags以,分开获取
         String[] tags = blog.getBlogTags().split(",");
-        for(String tag : tags){
-            redisTemplate.opsForZSet().incrementScore("TagCount",tag,1);
-        }
         if (tags.length > 6) {
             return "标签数量限制为6";
+        }
+        for(String tag : tags){
+            BlogTag blogTag = blogTagDao.selectByTagName(tag);
+            redisTemplate.opsForZSet().incrementScore("TagCount",blogTag.getTagId().toString()+","+tag,1);
         }
         blogForUpdate.setBlogTags(blog.getBlogTags());
         //新增的tag对象
@@ -413,18 +416,13 @@ public class BlogServiceImpl implements BlogService {
         List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         Set viewCount = redisTemplate.opsForZSet().reverseRange("ViewCount", 0, 8);
-        List<Blog> blogs = new ArrayList<>();
-        for(Object id : viewCount){
-            Blog blog = blogDao.getBlogById(Long.valueOf(id.toString()));
-            blogs.add(blog);
-        }
-        if (!CollectionUtils.isEmpty(blogs)) {
-            for (Blog blog : blogs) {
-                SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
-                //复制Blog中id、title信息
-                BeanUtils.copyProperties(blog, simpleBlogListVO);
-                simpleBlogListVOS.add(simpleBlogListVO);
-            }
+        for(Object b : viewCount){
+            String blog = b.toString();
+            String[] blogg = blog.split(",");
+            SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+            simpleBlogListVO.setBlogId(Long.valueOf(blogg[0]));
+            simpleBlogListVO.setBlogTitle(blogg[1]);
+            simpleBlogListVOS.add(simpleBlogListVO);
         }
         return simpleBlogListVOS;
     }
