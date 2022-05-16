@@ -30,7 +30,7 @@
                             <div class="form-group" style="display:flex;">
                                 <input type="hidden" id="blogId" name="blogId" th:value="${blog!=null and blog.blogId!=null }?${blog.blogId}: 0">
                                 <input type="text" class="form-control col-sm-6" id="blogName" name="blogName"
-                                       placeholder="*请输入文章标题(必填)"
+                                       placeholder="*请输入文章标题(必填)(注意标题中严禁带有',')"
                                        th:value="${blog!=null and blog.blogTitle!=null }?${blog.blogTitle}: ''"
                                        required="true">
                                 &nbsp;&nbsp;

@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -107,7 +108,13 @@ public class HjwsblogApplicationTests {
     }
 
     @Test
-    public void TestFl(){
-
-}
+    public void TestList(){
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.opsForList().leftPush("test","hjw");
+        redisTemplate.opsForList().leftPush("test","zqy");
+        List test = redisTemplate.opsForList().range("test", 0, 1);
+        for(Object name : test){
+            System.out.println(name.toString());
+        }
+    }
 }

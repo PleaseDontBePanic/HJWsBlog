@@ -54,7 +54,7 @@ public class MyBlogController {
             return "error/error_404";
         }
         request.setAttribute("blogPageResult", blogs);//将查到的文章传入对应模块中
-        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));//查询按发布时间排序的文章
+        request.setAttribute("newBlogs", blogService.getBlogListForNewBlog());//查询按发布时间排序的文章
         request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());//查询按点击量排序的文章
         request.setAttribute("hotTags", tagService.getBlogTagCount());//查询按使用次数排序的Tag
         request.setAttribute("pageName", "首页");
@@ -119,7 +119,7 @@ public class MyBlogController {
         request.setAttribute("pageName", "标签");
         request.setAttribute("pageUrl", "tag");
         request.setAttribute("keyword", tagName);
-        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("newBlogs", blogService.getBlogListForNewBlog());
         request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
         request.setAttribute("hotTags", tagService.getBlogTagCount());//查询按使用次数排序的Tag
         request.setAttribute("configurations", configService.getAllConfigs());
@@ -148,7 +148,7 @@ public class MyBlogController {
         request.setAttribute("pageName", "分类");
         request.setAttribute("pageUrl", "category");
         request.setAttribute("keyword", categoryName);
-        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("newBlogs", blogService.getBlogListForNewBlog());
         request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
         request.setAttribute("hotTags", tagService.getBlogTagCount());
         request.setAttribute("configurations", configService.getAllConfigs());
@@ -162,7 +162,7 @@ public class MyBlogController {
         request.setAttribute("pageName", "搜索");
         request.setAttribute("pageUrl", "search");
         request.setAttribute("keyword", keyword);
-        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("newBlogs", blogService.getBlogListForNewBlog());
         request.setAttribute("hotBlogs", blogService.getBlogListForViewCount());
         request.setAttribute("hotTags", tagService.getBlogTagCount());
         request.setAttribute("configurations", configService.getAllConfigs());
