@@ -77,12 +77,16 @@ public class TagServiceImpl implements TagService {
     public List<BlogTagCount> getBlogTagCount() {
         List<BlogTagCount> res = new ArrayList<>();
         redisTemplate.setValueSerializer(new StringRedisSerializer());
+//        返回Tag及其对应在Zset中的值
         Set<ZSetOperations.TypedTuple<Object>> tagCount = redisTemplate.opsForZSet().reverseRangeWithScores("TagCount", 0, 19);
+//        用iterator读取set中的值
         Iterator<ZSetOperations.TypedTuple<Object>> iterator = tagCount.iterator();
         while (iterator.hasNext()){
             ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
+//            获取Tag名及ID信息
             String tag = typedTuple.getValue().toString();
             String[] t = tag.split(",");
+//            获取其对应的使用次数
             float f = Float.valueOf(typedTuple.getScore().toString());
             int count = (int)f;
             BlogTagCount blogTagCount = new BlogTagCount();

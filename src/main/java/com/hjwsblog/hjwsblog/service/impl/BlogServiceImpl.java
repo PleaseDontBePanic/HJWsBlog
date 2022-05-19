@@ -413,7 +413,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void addJayView() {
         Blog jay = blogDao.getBlogById((long) 50);
-        redisTemplate.opsForZSet().incrementScore("ViewCount","50",1);
+        redisTemplate.opsForZSet().incrementScore("ViewCount","50"+","+"JayZhou's Music",1);
         jay.setBlogViews(jay.getBlogViews()+1);
         blogDao.updateByPrimaryKeySelective(jay);
     }
@@ -421,6 +421,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<SimpleBlogListVO> getBlogListForViewCount() {
         List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
+//        按点击次数从高到低取前九名
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         Set viewCount = redisTemplate.opsForZSet().reverseRange("ViewCount", 0, 8);
         for(Object b : viewCount){
@@ -438,9 +439,11 @@ public class BlogServiceImpl implements BlogService {
     public List<SimpleBlogListVO> getBlogListForNewBlog() {
         List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
         redisTemplate.setValueSerializer(new StringRedisSerializer());
+//        返回最近插入的9个博客信息的集合
         List newBlog = redisTemplate.opsForList().range("NewBlog", 0, 8);
         for(Object b : newBlog){
             String blog = b.toString();
+//            将信息以','分隔，即分隔了BlogID及Tital
             String[] blogg = blog.split(",");
             SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
             simpleBlogListVO.setBlogId(Long.valueOf(blogg[0]));

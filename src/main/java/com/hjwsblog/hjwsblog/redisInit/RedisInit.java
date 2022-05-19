@@ -53,7 +53,7 @@ public class RedisInit implements ApplicationRunner {
                 }
             }
         }
-
+//        是否使用过Redis来存储最新博客，如果未使用过则初始化对应Redis
         if(redisTemplate.opsForList().size("NewBlog") == 0){
             List<Blog> blogList = blogDao.findBlogList(null);
             for(Blog blog : blogList){
