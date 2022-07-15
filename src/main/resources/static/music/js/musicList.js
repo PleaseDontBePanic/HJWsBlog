@@ -24,6 +24,7 @@ var musicList = [
         cover  : '/music/data/pic.png',
         src    : '/music/data/红颜如霜-周杰伦.mp3'
     },
+    
     {
         title : '还在流浪',
         singer : '周杰伦',
