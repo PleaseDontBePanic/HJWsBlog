@@ -1,6 +1,42 @@
 
 var musicList = [
     {
+        title : 'Intro',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/Intro-周杰伦.mp3'
+    },
+    {
+        title : '最伟大的作品',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/最伟大的作品-周杰伦.mp3'
+    },
+    {
+        title : '粉色海洋',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/粉色海洋-周杰伦.mp3'
+    },
+    {
+        title : '红颜如霜',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/红颜如霜-周杰伦.mp3'
+    },
+    {
+        title : '还在流浪',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/还在流浪-周杰伦.mp3'
+    },
+    {
+        title : '错过的烟火',
+        singer : '周杰伦',
+        cover  : '/music/data/pic.png',
+        src    : '/music/data/错过的烟火-周杰伦.mp3'
+    },
+    {
         title : '迷迭香',
         singer : '周杰伦',
         cover  : '/music/data/pic.png',
@@ -367,7 +403,7 @@ var musicList = [
         src    : '/music/data/wlgb.mp3'
     },
     {
-        title : '阳关宅男',
+        title : '阳光宅男',
         singer : '周杰伦',
         cover  : '/music/data/pic.png',
         src    : '/music/data/ygzn.mp3'

@@ -1,6 +1,5 @@
 package com.hjwsblog.hjwsblog;
 
-import com.hjwsblog.hjwsblog.Dao.BlogCommentDao;
 import com.hjwsblog.hjwsblog.Dao.BlogTagDao;
 import com.hjwsblog.hjwsblog.entity.BlogTag;
 import com.hjwsblog.hjwsblog.service.AdminUserService;
@@ -47,6 +46,8 @@ public class HjwsblogApplicationTests {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+
 
     @Test
     public void TestAdmin(){

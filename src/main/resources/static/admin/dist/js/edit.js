@@ -220,7 +220,7 @@ $('#cancelButton').click(function () {
  * 随机封面功能
  */
 $('#randomCoverImage').click(function () {
-    var rand = parseInt(Math.random() * 40 + 1);
+    var rand = parseInt(Math.random() * 45 + 1);
     $("#blogCoverImage").attr("src", '/admin/dist/img/rand/' + rand + ".jpg");
     $("#blogCoverImage").attr("style", "width:160px ;height: 120px;display:block;");
 });
