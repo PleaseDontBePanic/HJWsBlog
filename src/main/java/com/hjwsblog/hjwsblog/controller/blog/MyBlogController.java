@@ -1,11 +1,14 @@
 package com.hjwsblog.hjwsblog.controller.blog;
 
+import com.hjwsblog.hjwsblog.Dao.SubEmailsDao;
 import com.hjwsblog.hjwsblog.controller.vo.BlogDetailVO;
 import com.hjwsblog.hjwsblog.entity.Blog;
 import com.hjwsblog.hjwsblog.entity.BlogComment;
 import com.hjwsblog.hjwsblog.entity.BlogLink;
+import com.hjwsblog.hjwsblog.entity.SubEmails;
 import com.hjwsblog.hjwsblog.service.*;
 import com.hjwsblog.hjwsblog.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,10 @@ public class MyBlogController {
     private ConfigService configService;
     @Resource
     private CategoryService categoryService;
+    @Autowired
+    SubEmailsDao subEmailsDao;
+    @Autowired
+    MailService mailService;
 
     @GetMapping({"","/", "/index", "index.html"})
     public String index(HttpServletRequest request) {
@@ -178,6 +185,16 @@ public class MyBlogController {
         return search(request, keyword, 1);
     }
 
+    @GetMapping({"/sub"})
+    public String sub(HttpServletRequest request, @RequestParam(value = "address",required = false ) String address){
+        String Title = "订阅成功确认邮件";
+        String context = "恭喜！！\r\n如果你收到此邮件说明你已经成功订阅本网站，感谢您对本网站的支持！！！此后将在每次更新文章时自动向您留下的邮箱发送信息，请注意查收\n" +
+                " 此邮件为自动发送，请勿回复。\r\n-------HJW";
+        mailService.sendMail(address,Title,context);
+        SubEmails byAddress = subEmailsDao.getEmailByAddress(address);
+        if(byAddress == null) subEmailsDao.insertEmail(address);
+        return detail(request,(long)81,1);
+    }
     /**
      * 友情链接页
      *

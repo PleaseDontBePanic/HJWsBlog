@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjwsblog.hjwsblog.Dao.SubEmailsDao">
+    <resultMap id="SubEmailsResult" type="com.hjwsblog.hjwsblog.entity.SubEmails">
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+
+    <select id="getAllEmails" resultMap="SubEmailsResult">
+        select *
+        from sub_emails
+    </select>
+
+    <select id="getEmailByAddress" resultMap="SubEmailsResult" parameterType="String">
+        select *
+        from sub_emails
+        where address = #{address}
+    </select>
+
+    <insert id="insertEmail" parameterType="String">
+        insert into sub_emails(address)
+        values(#{address})
+    </insert>
+
+</mapper>

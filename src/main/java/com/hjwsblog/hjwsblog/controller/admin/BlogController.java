@@ -1,13 +1,19 @@
 package com.hjwsblog.hjwsblog.controller.admin;
 
+import com.hjwsblog.hjwsblog.Dao.BlogDao;
+import com.hjwsblog.hjwsblog.Dao.SubEmailsDao;
 import com.hjwsblog.hjwsblog.config.Constants;
 import com.hjwsblog.hjwsblog.entity.Blog;
+import com.hjwsblog.hjwsblog.entity.SubEmails;
 import com.hjwsblog.hjwsblog.service.BlogService;
 import com.hjwsblog.hjwsblog.service.CategoryService;
+import com.hjwsblog.hjwsblog.service.MailService;
 import com.hjwsblog.hjwsblog.util.MyBlogUtils;
 import com.hjwsblog.hjwsblog.util.PageQueryUtil;
 import com.hjwsblog.hjwsblog.util.Result;
 import com.hjwsblog.hjwsblog.util.ResultGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -33,6 +40,12 @@ public class BlogController {
     private BlogService blogService;
     @Resource
     private CategoryService categoryService;
+    @Autowired
+    MailService mailService;
+    @Autowired
+    BlogDao blogDao;
+    @Autowired
+    SubEmailsDao subEmailsDao;
 
     /**
      * 按页码获取Blog的List，以json串的形式返回
@@ -128,7 +141,17 @@ public class BlogController {
         blog.setBlogStatus(blogStatus);
         blog.setEnableComment(enableComment);
         String res = blogService.saveBlog(blog);
+        Long id = blogDao.getIdByBlogTitle(blogTitle);
         if(res.equals("success")){
+            List<SubEmails> emails = subEmailsDao.getAllEmails();
+            String subject = "HJWsBlog有题为《" + blogTitle + "》的文章发布啦！";
+            String begin = "您好！感谢您对本网站的订阅！\r\n本人最新发表了一篇题为《" + blogTitle + "》的文章，以下为文章链接，欢迎点击查看，希望可以对您有所帮助！";
+            String url = "https://hjwzqy.online/blog/" + id.toString();
+            String end = "如果您想取消对本网站的订阅，请添加QQ937529137联系管理员取消！\r\n 此邮件为自动发送，请勿回复。\r\n" +
+                    "-------HJW";
+            for(SubEmails email : emails){
+                mailService.sendMail(email.getAddress(),subject,begin + "\r\n" + url+"\r\n"+end);
+            }
             return ResultGenerator.genSuccessResult("添加成功");
         }else{
             return ResultGenerator.genFailResult(res);
