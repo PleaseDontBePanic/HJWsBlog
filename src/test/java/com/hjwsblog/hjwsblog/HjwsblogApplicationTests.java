@@ -2,6 +2,7 @@ package com.hjwsblog.hjwsblog;
 
 import com.hjwsblog.hjwsblog.Dao.BlogTagDao;
 import com.hjwsblog.hjwsblog.entity.BlogTag;
+import com.hjwsblog.hjwsblog.entity.messageToSend;
 import com.hjwsblog.hjwsblog.service.AdminUserService;
 import com.hjwsblog.hjwsblog.service.BlogService;
 import com.hjwsblog.hjwsblog.service.CategoryService;
@@ -9,6 +10,7 @@ import com.hjwsblog.hjwsblog.service.TagService;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,6 +31,8 @@ import java.util.Set;
 public class HjwsblogApplicationTests {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
     BlogTagDao blogTagDao;
@@ -48,6 +52,16 @@ public class HjwsblogApplicationTests {
     private RedisTemplate redisTemplate;
 
 
+    @Test
+    public void TestMQ() throws InterruptedException {
+        messageToSend message = new messageToSend();
+        message.setAddress("13633457537@163.com");
+        message.setSubject("MQ");
+        message.setMainText("MQ");
+        rabbitTemplate.convertAndSend("mailExchange","user.mail",message);
+        System.out.println("success!");
+        Thread.sleep(40000);
+    }
 
     @Test
     public void TestAdmin(){

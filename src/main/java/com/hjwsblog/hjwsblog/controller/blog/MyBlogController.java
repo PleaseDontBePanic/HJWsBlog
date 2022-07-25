@@ -190,9 +190,9 @@ public class MyBlogController {
         String Title = "订阅成功确认邮件";
         String context = "恭喜！！\r\n如果你收到此邮件说明你已经成功订阅本网站，感谢您对本网站的支持！！！此后将在每次更新文章时自动向您留下的邮箱发送信息，请注意查收\n" +
                 " 此邮件为自动发送，请勿回复。\r\n-------HJW";
-        mailService.sendMail(address,Title,context);
-        SubEmails byAddress = subEmailsDao.getEmailByAddress(address);
-        if(byAddress == null) subEmailsDao.insertEmail(address);
+        mailService.sendMail(address,Title,context); //发送订阅确认信息
+        SubEmails byAddress = subEmailsDao.getEmailByAddress(address); //查找是否订阅过
+        if(byAddress == null) subEmailsDao.insertEmail(address); //若之前没有订阅过则新添加邮箱至订阅表中
         return detail(request,(long)81,1);
     }
     /**
