@@ -21,6 +21,8 @@ spring:
     port: 5672
     username: HandsomeHJW
     password: hjwkb824
+#    username: admin
+#    password: 123
     virtual-host: /
     connection-timeout: 10000
     listener:

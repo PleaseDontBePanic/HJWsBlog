@@ -158,7 +158,6 @@ public class BlogController {
                 message.setSubject(subject);
                 message.setMainText(begin + "\r\n" + url+"\r\n"+end);
                 rabbitTemplate.convertAndSend("mailExchange","user.mail",message);
-                
 //                mailService.sendMail(email.getAddress(),subject,begin + "\r\n" + url+"\r\n"+end);
             }
             return ResultGenerator.genSuccessResult("添加成功");
