@@ -21,6 +21,7 @@ public class ErrorPageController implements ErrorController {
 
     @Autowired
     private ErrorAttributes errorAttributes;
+    
 
     private final static String ERROR_PATH = "/error";
 
