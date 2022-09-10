@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjwsblog.hjwsblog.Dao.AdminUserDao">
+    <resultMap id="AdminUserResult" type="com.hjwsblog.hjwsblog.entity.AdminUser">
+        <id column="admin_user_id" jdbcType="INTEGER" property="admin_user_id" />
+        <result property="login_user_name" column="login_user_name"/>
+        <result property="login_user_password" column="login_user_password"/>
+    </resultMap>
+
+    <select id="findAllUsers" resultMap="AdminUserResult">
+        select * from admin_user
+    </select>
+
+    <update id="updateUserName" parameterType="com.hjwsblog.hjwsblog.entity.AdminUser">
+        update admin_user
+        set login_user_name=#{login_user_name}
+        where login_user_id=#{login_user_id}
+    </update>
+
+    <select id="getPasswordById" parameterType="int" resultType="String">
+        select login_user_password
+        from admin_user
+        where login_user_id=#{login_user_id}
+    </select>
+
+    <update id="updateUserPassword" parameterType="com.hjwsblog.hjwsblog.entity.AdminUser">
+        update admin_user
+        set login_user_password=#{login_user_password}
+        where login_user_id=#{login_user_id}
+    </update>
+</mapper>

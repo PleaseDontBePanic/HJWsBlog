@@ -1,0 +1,40 @@
+spring:
+  mail:
+    host: smtp.163.com
+    password: PIQQZTCXWPMCBUPE
+    username: 13633457537@163.com
+    port:
+    default-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
+
+
+    #RabbitMQ配置
+  rabbitmq:
+    host:
+    port: 5672
+    username: HandsomeHJW
+    password: hjwkb824
+#    username: admin
+#    password: 123
+    virtual-host: /
+    connection-timeout: 10000
+    listener:
+      simple:
+        acknowledge-mode: auto # 自动应答
+        auto-startup: true
+        default-requeue-rejected: false # 不重回队列
+        concurrency: 5
+        max-concurrency: 20
+        prefetch: 1 # 每次只处理一个信息
+        retry:
+          enabled: false
+    template:
+      exchange: web.demo
+      routing-key: user.key

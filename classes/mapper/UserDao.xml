@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjwsblog.hjwsblog.Dao.UserDao">
+
+    <resultMap id="UserResult" type="com.hjwsblog.hjwsblog.entity.User">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="findAllUsers" resultMap="UserResult">
+        select * from tb_user
+    </select>
+    
+    <insert id="insertUser" parameterType="com.hjwsblog.hjwsblog.entity.User">
+        insert into tb_user(name,password)
+        values (#{name},#{password})
+    </insert>
+
+    <update id="updateUser" parameterType="com.hjwsblog.hjwsblog.entity.User">
+        update tb_user
+        set
+        name=#{name} , password=#{password}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="com.hjwsblog.hjwsblog.entity.User">
+        delete from tb_user
+        where id = #{id}
+    </delete>
+
+</mapper>
