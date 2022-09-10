@@ -4,9 +4,19 @@ import java.io.Serializable;
 
 public class SimpleBlogListVO implements Serializable {
 
+    private  Integer blogCount;
+
     private Long blogId;
 
     private String blogTitle;
+
+    public Integer getBlogCount() {
+        return blogCount;
+    }
+
+    public void setBlogCount(Integer blogCount) {
+        this.blogCount = blogCount;
+    }
 
     public Long getBlogId() {
         return blogId;

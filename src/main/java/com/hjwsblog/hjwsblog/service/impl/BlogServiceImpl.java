@@ -16,6 +16,7 @@ import com.hjwsblog.hjwsblog.util.PatternUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -423,15 +424,22 @@ public class BlogServiceImpl implements BlogService {
         List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
 //        按点击次数从高到低取前九名
         redisTemplate.setValueSerializer(new StringRedisSerializer());
-        Set viewCount = redisTemplate.opsForZSet().reverseRange("ViewCount", 0, 8);
-        for(Object b : viewCount){
-            String blog = b.toString();
+        Set<ZSetOperations.TypedTuple<Object>> viewCount = redisTemplate.opsForZSet().reverseRangeWithScores("ViewCount", 0, 8);
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = viewCount.iterator();
+
+        while(iterator.hasNext()){
+            ZSetOperations.TypedTuple<Object> typedTuple = iterator.next();
+            String blog = typedTuple.getValue().toString();
             String[] blogg = blog.split(",");
+            float f = Float.valueOf(typedTuple.getScore().toString());
+            int count = (int)f;
             SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
             simpleBlogListVO.setBlogId(Long.valueOf(blogg[0]));
             simpleBlogListVO.setBlogTitle(blogg[1]);
+            simpleBlogListVO.setBlogCount(count);
             simpleBlogListVOS.add(simpleBlogListVO);
         }
+
         return simpleBlogListVOS;
     }
 

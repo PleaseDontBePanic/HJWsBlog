@@ -75,6 +75,7 @@
                             <th:block th:each="hotBlog : ${hotBlogs}">
                                 <li class="list-group-item"><a th:href="@{'/blog/' + ${hotBlog.blogId}}">
                                     <th:block th:text="${hotBlog.blogTitle}"></th:block>
+                                    <span class="badge" th:text="${hotBlog.blogCount}">1</span>
                                 </a></li>
                             </th:block>
                         </th:block>
