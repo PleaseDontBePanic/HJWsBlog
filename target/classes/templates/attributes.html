@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf SettingValues</title>
+</head>
+<body>
+
+<h1 th:text="${title}">标题演示</h1>
+
+<div>
+    <h5>id name value 标签</h5>
+    <input id="input" name="input" value="input" th:id="${th_id}" th:name="${th_name}" th:value="${th_value}">
+
+</div>
+
+<div class="div1" th:class="${th_class}">
+    <h5>class href 标签</h5>
+    <a href="**" th:href="${th_href}">链接地址</a>
+</div>
+
+
+</body>
+</html>
