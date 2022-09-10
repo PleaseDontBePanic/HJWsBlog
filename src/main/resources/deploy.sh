@@ -1,13 +1,13 @@
 #!/bin/bash
  
 # 修改APP_NAME为云效上的应用名
-HJWs Blog=naturobot-user-service
+APP_NAME=HJWsBlog
 VERSION_NAME=0.0.1
  
 PROG_NAME=$0
 ACTION=$1
 APP_START_TIMEOUT=50    # 等待应用启动的时间
-APP_PORT=8031          # 应用端口
+APP_PORT=80         # 应用端口
 HEALTH_CHECK_URL=http://127.0.0.1:${APP_PORT}  # 应用健康检查URL
 HEALTH_CHECK_FILE_DIR=/opt/${APP_NAME}/status   # 脚本会在这个目录下生成nginx-status文件
 APP_HOME=/opt/${APP_NAME} # 从package.tgz中解压出来的jar包放到这个目录下
