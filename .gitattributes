@@ -1,0 +1,7 @@
+maven-status filter=lfs diff=lfs merge=lfs -text
+surefire-reports filter=lfs diff=lfs merge=lfs -text
+classes filter=lfs diff=lfs merge=lfs -text
+generated-sources filter=lfs diff=lfs merge=lfs -text
+hjwsblog-0.0.1-SNAPSHOT.jar filter=lfs diff=lfs merge=lfs -text
+hjwsblog-0.0.1-SNAPSHOT.jar.original filter=lfs diff=lfs merge=lfs -text
+maven-archiver filter=lfs diff=lfs merge=lfs -text
