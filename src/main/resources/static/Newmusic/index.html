@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HJWs Music</title>
+    <link rel="stylesheet" href="../build/smusic.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #2e86ef;
+            font: 14px / 1.5 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .homepage {
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .homepage a {
+            color: #fff;
+        }
+
+        .wrapper {
+            width: 640px;
+            margin: 60px auto;
+        }
+
+        #smusic {
+            margin-bottom: 30px;
+        }
+
+        .button-group {
+            text-align: center;
+        }
+
+        .button-group button {
+            display: inline-block;
+            height: 36px;
+            line-height: 20px;
+            padding: 8px 16px;
+            min-width: 100px;
+            text-align: center;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .button-group button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .gitbtns {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .gitbtns iframe {
+            display: inline;
+            width: auto;
+            max-width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1 style="color: #e03a3a">HJW的音乐播放器</h1>
+<p class="homepage"><a href="https:hjwzqy.online" target="_blank">返回博客首页</a></p>
+<h1 style="font-size: 20px">歌曲查找功能：PC端ctrl+f调出搜索框、移动端长按使用页面查找功能即可（部分浏览器不支持，建议使用夸克浏览器）</h1>
+<h1 style="font-size: 20px ; color: #e03a3a" >歌曲手动调节进度功能暂未实现，手动调节会导致从头播放，请注意！！！</h1>
+<article class="wrapper">
+    <div id="my-music"></div>
+
+</article>
+
+
+
+<script src="/Newmusic/songList.js"></script>
+<script src="/Newmusic/build/smusic.min.js"></script>
+<script>
+    var smusic = SMusic(songList, {
+        container : document.getElementById('my-music')
+    });
+    smusic.init()
+</script>
+
+</body>
+
+</html>
