@@ -50,13 +50,6 @@ var songList = [
         lyric : '/Newmusic/data/迷迭香.lrc'
     },
     {
-        title : '迷迭香',
-        singer : '周杰伦',
-        audio : '/music/data/mdx.mp3',
-        thumbnail : '/music/data/pic.png',
-        lyric : '/Newmusic/data/迷迭香.lrc'
-    },
-    {
         title : '安静',
         singer : '周杰伦',
         audio : '/music/data/龙卷风.mp3',
