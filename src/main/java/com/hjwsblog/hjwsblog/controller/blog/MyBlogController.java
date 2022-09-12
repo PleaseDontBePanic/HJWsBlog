@@ -91,7 +91,7 @@ public class MyBlogController {
     public String detail(HttpServletRequest request, @PathVariable("blogId") Long blogId, @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
         if(blogId == 50){
             blogService.addJayView();
-            return "music";
+            return "newmusic";
         }
         BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);//获取Blog详细信息
         if (blogDetailVO != null) {//若Blog存在则为页面属性赋值
@@ -294,6 +294,6 @@ public class MyBlogController {
     @GetMapping("/jay")
     public String jay(){
         blogService.addJayView();
-        return "music";
+        return "newmusic";
     }
 }
